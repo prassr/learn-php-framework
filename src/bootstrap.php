@@ -62,7 +62,7 @@ $router->get("/products", function() {
 });
 
 
-$router->get("/product/{id}", function($request, $args) {
+$router->get("/product/{id:number}", function($request, $args) {
 
     /* $id = $request->getQueryParams()["id"]; */
     $id = $args["id"];
