@@ -15,8 +15,12 @@ class HomeController
     public function __construct(private ResponseFactoryInterface $factory){}
     public function index(): ResponseInterface
     {
-        $contents = file_get_contents(dirname(__DIR__, 2) . "/views/home/index.php");
+        ob_start();
         
+        require (dirname(__DIR__, 2) . "/views/home/index.php");
+        
+        $contents = ob_get_clean();
+
         $stream = $this->factory->createStream($contents);
 
         # create response object using factory.
