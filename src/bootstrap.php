@@ -38,15 +38,9 @@ $router = new Router;
 /**/
 
 $router->map("GET", "/", function() {
-
-    // for sending body
-    $stream = Utils::streamFor("Welcome");
-
-    $response = new Response;
-
-    $response = $response->withBody($stream);
-
-    return $response;
+    $controller = new App\Controllers\HomeController;
+    return $controller->index();
+    
 });
 
 $router->get("/products", function() {
