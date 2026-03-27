@@ -7,6 +7,7 @@ declare(strict_types=1);
 use GuzzleHttp\Psr7\ServerRequest;
 use HttpSoft\Emitter\SapiEmitter;
 use League\Route\Router;
+use League\Route\Strategy\ApplicationStrategy;
 use App\Controllers\HomeController;
 use App\Controllers\ProductController;
 use GuzzleHttp\Psr7\HttpFactory;
@@ -30,19 +31,24 @@ $request = ServerRequest::fromGlobals();
 
 # DI container
 $container = new DI\Container([
+    # single place to configure the class to be used.
     ResponseFactoryInterface::class => DI\create(Psr17Factory::class)
 ]); # tell the container which specific class to use, when the controller constructor argument type is an interface.
-# instance of HomeController using DI container
-# the container will automatically resolve any dependencies.
-$controller = $container->get(HomeController::class);
+
+# use the Router to use the container directly
 
 $router = new Router;
 
+$strategy = new ApplicationStrategy;
+$strategy->setContainer($container);
+# no longer need to create the controller object
+# the router will use the container to create the controller object.
+# It resolves any dependency the controller has.
+$router->setStrategy($strategy);
 
-$router->map("GET", "/", function() use ($controller) {
-    # here we can directly use the home controller object created using dependency injector.
-    return $controller->index();
-}); # laravel style
+
+# with strategy simply specify the handler as the class and method.
+$router->map("GET", "/", [HomeController::class, "index"]); # laravel style
 
 $router->get("/products", [ProductController::class, "index"]);
 
