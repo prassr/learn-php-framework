@@ -11,6 +11,11 @@ use App\Controllers\HomeController;
 use App\Controllers\ProductController;
 use Nyholm\Psr7\Factory\Psr17Factory;
 
+# Dependency injection container:
+#   A DI container can automatically resolve dependecies when we create an object.
+#   Uses PSR-11: Container Interface standard
+
+use DI\Container;
 
 
 ini_set("display_errors", 1);
@@ -21,28 +26,17 @@ require dirname(__DIR__) . "/vendor/autoload.php";
 
 $request = ServerRequest::fromGlobals();
 
+# DI container 
+$container = new DI\Container;
+# instance of HomeController using DI container
+# the container will automatically resolve any dependencies.
+$controller = $container->get(HomeController::class);
+
 $router = new Router;
 
-/* $path = $request->getUri()->getPath(); */
 
-// url path
-/* echo $path; */
-
-// page value from the query string
-/* $page = $request->getQueryParams()["page"]; */
-
-
-/* $page = match($path) { */
-/*     "/" => "welcome", */
-/*     "/products" => "list", */
-/*     "/product" => "show", */
-/* }; */
-/**/
-
-$router->map("GET", "/", function(){
-    $factory = new Psr17Factory;
-    $controller = new HomeController($factory);
-
+$router->map("GET", "/", function() use ($controller) {
+    # here we can directly use the home controller object created using dependency injector.
     return $controller->index();
 }); # laravel style
 
