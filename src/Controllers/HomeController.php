@@ -9,17 +9,17 @@ use Psr\Http\Message\ResponseInterface;
 # Using Interface for factory methods type
 use Psr\Http\Message\ResponseFactoryInterface;
 
+use Framework\Template\Renderer;
 
 class HomeController 
 {
     public function __construct(private ResponseFactoryInterface $factory){}
     public function index(): ResponseInterface
     {
-        ob_start();
         
-        require (dirname(__DIR__, 2) . "/views/home/index.php");
-        
-        $contents = ob_get_clean();
+        $renderer = new Renderer;
+
+        $contents = $renderer->render("home/index");
 
         $stream = $this->factory->createStream($contents);
 
