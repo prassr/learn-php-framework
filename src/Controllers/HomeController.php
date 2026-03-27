@@ -6,13 +6,13 @@ declare(strict_types=1);
 namespace App\Controllers;;
 
 use Psr\Http\Message\ResponseInterface;
-# Using factory
-use GuzzleHttp\Psr7\HttpFactory;
-use Nyholm\Psr7\Factory\Psr17Factory;
+# Using Interface for factory methods type
+use Psr\Http\Message\ResponseFactoryInterface;
+
 
 class HomeController 
 {
-    public function __construct(private Psr17Factory $factory){}
+    public function __construct(private ResponseFactoryInterface $factory){}
     public function index(): ResponseInterface
     {
         

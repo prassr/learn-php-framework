@@ -9,7 +9,9 @@ use HttpSoft\Emitter\SapiEmitter;
 use League\Route\Router;
 use App\Controllers\HomeController;
 use App\Controllers\ProductController;
+use GuzzleHttp\Psr7\HttpFactory;
 use Nyholm\Psr7\Factory\Psr17Factory;
+use Psr\Http\Message\ResponseFactoryInterface;
 
 # Dependency injection container:
 #   A DI container can automatically resolve dependecies when we create an object.
@@ -26,8 +28,10 @@ require dirname(__DIR__) . "/vendor/autoload.php";
 
 $request = ServerRequest::fromGlobals();
 
-# DI container 
-$container = new DI\Container;
+# DI container
+$container = new DI\Container([
+    ResponseFactoryInterface::class => DI\create(Psr17Factory::class)
+]); # tell the container which specific class to use, when the controller constructor argument type is an interface.
 # instance of HomeController using DI container
 # the container will automatically resolve any dependencies.
 $controller = $container->get(HomeController::class);
