@@ -13,13 +13,16 @@ use GuzzleHttp\Psr7\Utils;
 # it should not throw any errors when changing the package
 # from GuzzleHttp to nyholm/psr7
 use Psr\Http\Message\ResponseInterface;
+use Nyholm\Psr7\Stream;
 
 class HomeController 
 {
     public function index(): ResponseInterface
     {
         // for sending body
-        $stream = Utils::streamFor("Welcome");
+        
+        // $stream = Utils::streamFor("Welcome");
+        $stream = Stream::create("Welcome");
 
         $response = new Response;
 
