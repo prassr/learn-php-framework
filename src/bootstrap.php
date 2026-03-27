@@ -5,10 +5,10 @@
 declare(strict_types=1);
 
 use GuzzleHttp\Psr7\ServerRequest;
-use GuzzleHttp\Psr7\Response;
-use GuzzleHttp\Psr7\Utils;
 use HttpSoft\Emitter\SapiEmitter;
 use League\Route\Router;
+use App\Controllers\HomeController;
+use App\Controllers\ProductController;
 
 
 ini_set("display_errors", 1);
@@ -37,35 +37,11 @@ $router = new Router;
 /* }; */
 /**/
 
-$router->map("GET", "/", [App\Controllers\HomeController::class, "index"]);
+$router->map("GET", "/", [HomeController::class, "index"]); # laravel style
 
-$router->get("/products", function() {
+$router->get("/products", [ProductController::class, "index"]);
 
-    // for sending body
-    $stream = Utils::streamFor("List of Products");
-
-    $response = new Response;
-
-    $response = $response->withBody($stream);
-
-    return $response;
-});
-
-
-$router->get("/product/{id:number}", function($request, $args) {
-
-    /* $id = $request->getQueryParams()["id"]; */
-    $id = $args["id"];
-
-    // for sending body
-    $stream = Utils::streamFor("Single product id $id");
-
-    $response = new Response;
-
-    $response = $response->withBody($stream);
-
-    return $response;
-});
+$router->get("/product/{id:number}", [ProductController::class, "show"]);
 
 
 
