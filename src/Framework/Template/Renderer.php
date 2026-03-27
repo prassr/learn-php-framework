@@ -3,8 +3,9 @@
 declare(strict_types=1);
 
 namespace Framework\Template;
+// use Framework\Template\RendererInterface;
 
-class Renderer
+class Renderer implements RendererInterface
 {
     public function render(string $template): string 
     {

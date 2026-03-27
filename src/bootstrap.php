@@ -14,6 +14,11 @@ use GuzzleHttp\Psr7\HttpFactory;
 use Nyholm\Psr7\Factory\Psr17Factory;
 use Psr\Http\Message\ResponseFactoryInterface;
 
+use Framework\Template\Renderer;
+use Framework\Template\RendererInterface;
+
+
+
 # Dependency injection container:
 #   A DI container can automatically resolve dependecies when we create an object.
 #   Uses PSR-11: Container Interface standard
@@ -32,9 +37,9 @@ $request = ServerRequest::fromGlobals();
 # DI container
 $container = new DI\Container([
     # single place to configure the class to be used.
-    ResponseFactoryInterface::class => DI\create(Psr17Factory::class)
-]); # tell the container which specific class to use, when the controller constructor argument type is an interface.
-
+    ResponseFactoryInterface::class => DI\create(Psr17Factory::class),
+    RendererInterface::class => DI\create(Renderer::class)
+]); 
 # use the Router to use the container directly
 
 $router = new Router;

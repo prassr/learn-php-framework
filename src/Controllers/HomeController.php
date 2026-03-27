@@ -9,17 +9,20 @@ use Psr\Http\Message\ResponseInterface;
 # Using Interface for factory methods type
 use Psr\Http\Message\ResponseFactoryInterface;
 
-use Framework\Template\Renderer;
+use Framework\Template\RendererInterface;
 
 class HomeController 
 {
-    public function __construct(private ResponseFactoryInterface $factory){}
+    public function __construct(
+        private ResponseFactoryInterface $factory,
+        private RendererInterface $renderer)
+    {}
+
     public function index(): ResponseInterface
     {
         
-        $renderer = new Renderer;
-
-        $contents = $renderer->render("home/index");
+        
+        $contents = $this->renderer->render("home/index");
 
         $stream = $this->factory->createStream($contents);
 
