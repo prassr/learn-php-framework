@@ -37,7 +37,7 @@ $router = new Router;
 /* }; */
 /**/
 
-$router->map("GET", "/", "App\Controllers\HomeController::index");
+$router->map("GET", "/", [App\Controllers\HomeController::class, "index"]);
 
 $router->get("/products", function() {
 
