@@ -24,7 +24,7 @@ class HomeController
 {
     public function index(): ResponseInterface
     {
-        $factory = new HttpFactory;
+        $factory = new Psr17Factory;
 
         // for sending body
         
