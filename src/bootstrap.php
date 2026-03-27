@@ -9,6 +9,7 @@ use HttpSoft\Emitter\SapiEmitter;
 use League\Route\Router;
 use App\Controllers\HomeController;
 use App\Controllers\ProductController;
+use Nyholm\Psr7\Factory\Psr17Factory;
 
 
 
@@ -38,13 +39,16 @@ $router = new Router;
 /* }; */
 /**/
 
-$router->map("GET", "/", [HomeController::class, "index"]); # laravel style
+$router->map("GET", "/", function(){
+    $factory = new Psr17Factory;
+    $controller = new HomeController($factory);
+
+    return $controller->index();
+}); # laravel style
 
 $router->get("/products", [ProductController::class, "index"]);
 
 $router->get("/product/{id:number}", [ProductController::class, "show"]);
-
-
 
 /* echo $page; */
 
