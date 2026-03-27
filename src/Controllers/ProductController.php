@@ -5,14 +5,15 @@ declare(strict_types=1);
 
 namespace App\Controllers;;
 
-use GuzzleHttp\Psr7\ServerRequest;
 use GuzzleHttp\Psr7\Response;
 use GuzzleHttp\Psr7\Utils;
+use Psr\Http\Message\ServerRequestInterface;
+use Psr\Http\Message\ResponseInterface;
 
 
 class ProductController 
 {
-    public function index(): Response
+    public function index(): ResponseInterface
     {
         // for sending body
         $stream = Utils::streamFor("List of Products");
@@ -24,7 +25,7 @@ class ProductController
         return $response;
     }
 
-    public function  show(ServerRequest $request, array $args): Response
+    public function  show(ServerRequestInterface $request, array $args): ResponseInterface
     {
 
     /* $id = $request->getQueryParams()["id"]; */
