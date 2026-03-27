@@ -5,20 +5,23 @@ declare(strict_types=1);
 
 namespace App\Controllers;;
 
-use GuzzleHttp\Psr7\Response;
-use GuzzleHttp\Psr7\Utils;
 use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Message\ResponseInterface;
+# Using factory
+use GuzzleHttp\Psr7\HttpFactory;
+use Nyholm\Psr7\Factory\Psr17Factory;
 
 
 class ProductController 
 {
     public function index(): ResponseInterface
     {
-        // for sending body
-        $stream = Utils::streamFor("List of Products");
 
-        $response = new Response;
+        $factory = new HttpFactory;
+        // for sending body
+        $stream = $factory->createStream("List of Products");
+
+        $response = $factory->createResponse();
 
         $response = $response->withBody($stream);
 
@@ -28,15 +31,17 @@ class ProductController
     public function  show(ServerRequestInterface $request, array $args): ResponseInterface
     {
 
-    /* $id = $request->getQueryParams()["id"]; */
-    $id = $args["id"];
+        $factory = new Psr17Factory;
 
-    // for sending body
-    $stream = Utils::streamFor("Single product id $id");
+        /* $id = $request->getQueryParams()["id"]; */
+        $id = $args["id"];
 
-    $response = new Response;
+        // for sending body
+        $stream = $factory->createStream("Single product id $id");
 
-    $response = $response->withBody($stream);
+        $response = $factory->createResponse();
+
+        $response = $response->withBody($stream);
 
     return $response;
 }
