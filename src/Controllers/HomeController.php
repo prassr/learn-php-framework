@@ -15,16 +15,27 @@ use GuzzleHttp\Psr7\Utils;
 use Psr\Http\Message\ResponseInterface;
 use Nyholm\Psr7\Stream;
 
+# Using factory
+
+use GuzzleHttp\Psr7\HttpFactory;
+use Nyholm\Psr7\Factory\Psr17Factory;
+
 class HomeController 
 {
     public function index(): ResponseInterface
     {
+        $factory = new HttpFactory;
+
         // for sending body
         
         // $stream = Utils::streamFor("Welcome");
-        $stream = Stream::create("Welcome");
+        // $stream = Stream::create("Welcome");
+        
+        // create stream using factory
+        $stream = $factory->createStream("Welcome to the homepage");
 
-        $response = new Response;
+        # create response object using factory.
+        $response = $factory->createResponse(); # takes optional argument -> responseCode, deafult is 200
 
         $response = $response->withBody($stream);
 
