@@ -21,9 +21,10 @@ class HomeController
     public function index(): ResponseInterface
     {
         
+        $contents = $this->renderer->render("home/index", [
+            "name" => "San"
+        ]);
         
-        $contents = $this->renderer->render("home/index");
-
         $stream = $this->factory->createStream($contents);
 
         # create response object using factory.

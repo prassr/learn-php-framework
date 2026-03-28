@@ -7,8 +7,12 @@ namespace Framework\Template;
 
 class Renderer implements RendererInterface
 {
-    public function render(string $template): string 
-    {
+    public function render(string $template, array $data = []): string 
+    {   
+        # extract associative array into individual variables.
+        # with the skip flag, we make sure that we don't override any existing variables.
+        extract($data, EXTR_SKIP);
+
         ob_start();
         
         require (dirname(__DIR__, 3) . "/views/$template.php");
