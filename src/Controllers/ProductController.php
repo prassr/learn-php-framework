@@ -34,11 +34,13 @@ class ProductController
 
     public function  show(ServerRequestInterface $request, array $args): ResponseInterface
     {
-        /* $id = $request->getQueryParams()["id"]; */
-        $id = $args["id"];
+        $contents = $this->renderer->render("product/show", [
+            "id" => $args["id"]
+        ]);
+
 
         // for sending body
-        $stream = $this->factory->createStream("Single product id $id");
+        $stream = $this->factory->createStream($contents);
 
         $response = $this->factory->createResponse();
 
