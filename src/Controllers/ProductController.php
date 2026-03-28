@@ -8,18 +8,22 @@ namespace App\Controllers;;
 use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ResponseFactoryInterface;
-
+use Framework\Template\RendererInterface;
 
 
 class ProductController 
 {
-    public function __construct(private ResponseFactoryInterface $factory)
+    public function __construct(private ResponseFactoryInterface $factory,
+                                private RendererInterface $renderer)
     {}
     
     public function index(): ResponseInterface
     {
         // for sending body
-        $stream = $this->factory->createStream("List of Products");
+
+        $contents = $this->renderer->render("product/index");
+
+        $stream = $this->factory->createStream($contents);
 
         $response = $this->factory->createResponse();
 
