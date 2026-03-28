@@ -15,7 +15,9 @@ use Nyholm\Psr7\Factory\Psr17Factory;
 use Psr\Http\Message\ResponseFactoryInterface;
 
 use Framework\Template\Renderer;
+use Framework\Template\PlatesRenderer;
 use Framework\Template\RendererInterface;
+
 
 
 
@@ -38,7 +40,7 @@ $request = ServerRequest::fromGlobals();
 $container = new DI\Container([
     # single place to configure the class to be used.
     ResponseFactoryInterface::class => DI\create(Psr17Factory::class),
-    RendererInterface::class => DI\create(Renderer::class)
+    RendererInterface::class => DI\create(PlatesRenderer::class)
 ]); 
 # use the Router to use the container directly
 
