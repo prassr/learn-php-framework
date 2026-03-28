@@ -20,9 +20,9 @@ class HomeController
 
     public function index(): ResponseInterface
     {
-        
+
         $contents = $this->renderer->render("home/index", [
-            "name" => "San"
+            "name" => "<em>San</em>"
         ]);
         
         $stream = $this->factory->createStream($contents);
